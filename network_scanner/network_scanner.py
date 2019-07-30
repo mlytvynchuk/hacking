@@ -1,6 +1,6 @@
-import scapy.all sa scapy
+import scapy.all as scapy
 
 def scan(ip):
-    scapy.airping(ip)
+    scapy.arping(ip)
 
 scan("10.0.2.1")
