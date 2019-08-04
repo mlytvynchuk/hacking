@@ -2,6 +2,7 @@
 import scapy.all as scapy
 import argparse
 
+
 def print_client_list(clients_list):
     print("_________________________________________________________")
     print("IP\t\t\t\t\tMAC\n---------------------------------------------------------")
@@ -12,16 +13,20 @@ def print_client_list(clients_list):
         print ("no mac address with this ip")
     print("---------------------------------------------------------")
 
+
 def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--ip", dest="client_ip", help="Client ip for getting mac address")
     options = parser.parse_args()
     return options
+
+
 def scan(ip):
     arp_request = scapy.ARP(pdst = ip) # get an ip of our computer
     broadcast = scapy.Ether(dst = "ff:ff:ff:ff:ff:ff") # get a mac address of our computer
     arp_request_brodcast = broadcast/arp_request # arp_request + broadcast
-    answered_list = scapy.srp(arp_request_brodcast, timeout=1)[0]
+    print ("Scanning...")
+    answered_list = scapy.srp(arp_request_brodcast, timeout=1, verbose=False)[0]
     clients_list = []
 
     for el in answered_list:
@@ -32,7 +37,6 @@ def scan(ip):
         clients_list.append(client_dict)
 
     return clients_list
-
 
 
 options = get_arguments()
